@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.tweetsyapp_jetpackcompose.api.ProductApi
+import com.example.tweetsyapp_jetpackcompose.screens.CategoryScreen.CategoryScreen
+import com.example.tweetsyapp_jetpackcompose.screens.ProductDetailScreen
 import com.example.tweetsyapp_jetpackcompose.ui.theme.TweetsyAppJetpackComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
@@ -32,30 +34,9 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             TweetsyAppJetpackComposeTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
+                //CategoryScreen()
+                ProductDetailScreen()
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TweetsyAppJetpackComposeTheme {
-        Greeting("Android")
     }
 }

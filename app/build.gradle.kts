@@ -68,6 +68,7 @@ dependencies {
     androidTestImplementation(platform("androidx.compose:compose-bom:2024.02.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-tooling-preview:1.6.1")
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.6.1")
 
     //HILT
@@ -85,6 +86,8 @@ dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+
+    implementation("io.coil-kt:coil-compose:2.5.0")
 }
 
 // Allow references to generated code
