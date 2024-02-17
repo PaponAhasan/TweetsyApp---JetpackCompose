@@ -18,9 +18,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.tweetsyapp_jetpackcompose.R
@@ -30,7 +30,7 @@ import com.example.tweetsyapp_jetpackcompose.viewmodels.ProductListViewModel
 
 @Composable
 fun ProductDetailScreen() {
-    val productListViewModel: ProductListViewModel = viewModel()
+    val productListViewModel: ProductListViewModel = hiltViewModel()
     val productsResponse = productListViewModel.categoryProducts.collectAsState().value
     when (productsResponse) {
         is Response.Loading -> {

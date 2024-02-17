@@ -11,6 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.tweetsyapp_jetpackcompose.api.ProductApi
 import com.example.tweetsyapp_jetpackcompose.screens.CategoryScreen.CategoryScreen
 import com.example.tweetsyapp_jetpackcompose.screens.ProductDetailScreen
@@ -34,9 +39,28 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             TweetsyAppJetpackComposeTheme {
-                //CategoryScreen()
-                ProductDetailScreen()
+                App()
             }
+        }
+    }
+}
+
+@Composable
+fun App() {
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = "category"){
+        composable(route = "category"){
+            CategoryScreen(onClick = {
+                navController.navigate("detail/${it}")
+            })
+        }
+        composable(route = "detail/{category}", arguments = listOf(
+            navArgument("category"){
+                type = NavType.StringType
+            }
+        )){
+            ProductDetailScreen()
         }
     }
 }

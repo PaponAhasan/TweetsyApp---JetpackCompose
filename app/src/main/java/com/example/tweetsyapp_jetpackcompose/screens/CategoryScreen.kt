@@ -2,6 +2,7 @@ package com.example.tweetsyapp_jetpackcompose.screens.CategoryScreen
 
 import android.util.Log
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,19 +25,21 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tweetsyapp_jetpackcompose.R
 import com.example.tweetsyapp_jetpackcompose.utils.Response
 import com.example.tweetsyapp_jetpackcompose.viewmodels.CategoryViewModel
 
 @Composable
-fun CategoryScreen() {
-    val categoryViewModel: CategoryViewModel = viewModel()
+fun CategoryScreen(onClick: (category: String) -> Unit) {
+    val categoryViewModel: CategoryViewModel = hiltViewModel()
     val categoriesResponse = categoryViewModel.categories.collectAsState().value
 
     when (categoriesResponse) {
         is Response.Loading -> {
             // Handle loading state
+
         }
 
         is Response.Success -> {
@@ -47,7 +50,7 @@ fun CategoryScreen() {
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
                     items(categories) { category ->
-                        CategoryItem(category)
+                        CategoryItem(category, onClick)
                     }
                 }
             }
@@ -61,10 +64,11 @@ fun CategoryScreen() {
 }
 
 @Composable
-fun CategoryItem(category: String) {
+fun CategoryItem(category: String, onClick: (category: String) -> Unit) {
     Box(
         Modifier
             .padding(4.dp)
+            .clickable { onClick(category) }
             .size(160.dp)
             .clip(RoundedCornerShape(8.dp))
             .paint(

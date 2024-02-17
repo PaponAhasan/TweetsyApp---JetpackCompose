@@ -1,5 +1,6 @@
 package com.example.tweetsyapp_jetpackcompose.viewmodels
 
+import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,11 +15,16 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class ProductListViewModel @Inject constructor(private val productRepository: ProductRepository) : ViewModel() {
+class ProductListViewModel @Inject constructor(
+    private val productRepository: ProductRepository,
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
     init {
         viewModelScope.launch(Dispatchers.IO) {
             async { productRepository.getProducts() }.await()
-            async { productRepository.getProductsByCategory("jewelery") }.await()
+
+            val category = savedStateHandle.get<String>("category") ?: "jewelery"
+            async { productRepository.getProductsByCategory(category) }.await()
         }
     }
 
