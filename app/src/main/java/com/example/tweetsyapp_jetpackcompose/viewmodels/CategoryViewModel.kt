@@ -17,6 +17,6 @@ class CategoryViewModel @Inject constructor(private val productRepository: Produ
         }
     }
 
-    val categories: StateFlow<Response<List<String>>>
+    val categories: StateFlow<List<String>>
         get() = productRepository.categories
 }

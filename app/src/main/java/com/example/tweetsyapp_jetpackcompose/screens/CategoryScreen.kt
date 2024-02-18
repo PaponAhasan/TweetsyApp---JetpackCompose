@@ -5,13 +5,18 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,31 +39,34 @@ import com.example.tweetsyapp_jetpackcompose.viewmodels.CategoryViewModel
 @Composable
 fun CategoryScreen(onClick: (category: String) -> Unit) {
     val categoryViewModel: CategoryViewModel = hiltViewModel()
-    val categoriesResponse = categoryViewModel.categories.collectAsState().value
+    val categoriesResponse = categoryViewModel.categories.collectAsState()
 
-    when (categoriesResponse) {
-        is Response.Loading -> {
+    categoriesResponse.value.let { categories ->
+        if (categories.isEmpty()) {
             // Handle loading state
-
-        }
-
-        is Response.Success -> {
-            categoriesResponse.data?.let { categories ->
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    contentPadding = PaddingValues(8.dp),
-                    verticalArrangement = Arrangement.SpaceBetween
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    items(categories) { category ->
-                        CategoryItem(category, onClick)
-                    }
+                    CircularProgressIndicator() // Add a circular progress indicator
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(text = "Loading...")
                 }
             }
-        }
-
-        is Response.Error -> {
-            val errorMessage = categoriesResponse.errorMessage // Access the error message
-            Log.d("Error", errorMessage.toString())
+        } else {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                contentPadding = PaddingValues(8.dp),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                items(categories) { category ->
+                    CategoryItem(category, onClick)
+                }
+            }
         }
     }
 }

@@ -28,9 +28,9 @@ class ProductListViewModel @Inject constructor(
         }
     }
 
-    val products: StateFlow<Response<List<ProductList>>>
+    val products: StateFlow<List<ProductList>>
         get() = productRepository.products
-    val categoryProducts: StateFlow<Response<List<ProductList>>>
+    val categoryProducts: StateFlow<List<ProductList>>
         get() = productRepository.categoryProducts
 
 }
